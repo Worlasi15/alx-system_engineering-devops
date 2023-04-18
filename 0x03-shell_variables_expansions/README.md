@@ -1,1 +1,1 @@
-0x03.shell init
+0x03. Shell, init files
