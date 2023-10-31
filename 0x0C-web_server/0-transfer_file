@@ -13,7 +13,7 @@ USERNAME="$3"
 SSH_KEY="$4"
 
 # Use scp to transfer the file to the user's home directory on the server
-scp -i "$SSH_KEY" -o StrictHostKeyChecking=no "$FILE" "$USERNAME@$IP:~/"
+scp -o StrictHostKeyChecking=no -i "$SSH_KEY" "$FILE" "$USERNAME@$IP:~/"
 
 # Check the exit status of the scp command
 if [ "$?" -eq 0 ]; then
