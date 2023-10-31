@@ -6,11 +6,11 @@ if [ "$#" -ne 4 ]; then
 fi
 file_to_transfer="$1"
 server_ip="$2"
-username="$4"
+username="$3"
 ssh_key="$4"
 scp -i "$ssh_key" -o StrictHostKeyChecking=no "$file_to_transfer" "$username@$server_ip:~/"
 if [ "$?" -eq 0 ]; then
-  echo "File successfully transferred to $IP"
+  echo "File transfer successful"
 else
-  echo "Error: File transfer failed"
+  echo "File transfer failed"
 fi
