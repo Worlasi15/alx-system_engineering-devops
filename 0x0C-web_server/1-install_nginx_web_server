@@ -1,18 +1,12 @@
-#!/usr/bin/env/bash
-
 # Update the package list to make sure we install the latest version
 sudo apt update
 
 # Install Nginx
 sudo apt install -y nginx
 
-# Start Nginx (it should start automatically, but this is just to be sure)
 sudo service nginx start
 
-# Create a simple HTML page with "Hello World!"
 echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Check if Nginx is running
 if pgrep -x "nginx" > /dev/null
 then
     echo "Nginx is running."
