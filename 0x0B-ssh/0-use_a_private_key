@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#server_ip="your_server_ip_or_hostname"
+#private_key="~/.ssh/school"
+#username="ubuntu"
+
+ssh -i ~/.ssh/school ubuntu@f0f0ed98573c.1fa60de7.alx-cod.online
