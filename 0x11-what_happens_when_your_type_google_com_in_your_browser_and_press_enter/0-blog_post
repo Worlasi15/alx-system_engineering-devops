@@ -1,0 +1,11 @@
+When https://www.google.com is typed in your browser and enter is hit, a request is sent to the DNS Teling it to translate the domain name that is understandable and readable by humans into an IP Address for easy location of the website on which ever sever hosts it. The IP Address is then returned and a TCP(Transmission Transfer Protocol) connection is made to the server to enable accurate and reliable communication between your server and browser.
+
+While data packets traverse the internet, they could meet a firewall (precautions put in place to monitor, filter, and control incoming and outgoing network traffic and protects the network against unauthorised access and helps safe data transmissiom). 
+After this, a secure connection to ensure confidentiality by encrypting data sent in and out between the browser and server. This is achieved by using a Hypertext Transfer Protocol Secure (HTTPS) and the Secure Sockets Layer (SSL) or Transport Layer Security (TLS) protocols. 
+
+The Load-Balancer then uses load balancing techniques to distribute incoming web traffic across multiple servers, ensuring optimal utilization and preventing any single server from becoming overwhelmed. This enhances the website's reliability, performance, and availability.
+The Web Server then gets the request and hosts the web page files and processes the request and proccesses it and prepares the data to be sent back to your browser.
+
+In some cases, the Application Server plays a role especially with dynamic websites, an application server is involved. This server executes application logic, such as handling user authentication or processing form submissions. It works in tandem with the web server to generate the content that will be displayed on your browser.
+Application server then interacts with a Database for Data to be stored for future retrieval. Some of this retrieval of information may include search results, personalized information or user likes.
+Data travels back through the steps explained above only that this time, it is in the reverse form. Your browser interprets the received data, rendering the Google homepage on your screen. 
