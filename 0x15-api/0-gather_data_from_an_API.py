@@ -1,33 +1,27 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """
 Python script that returns information
 about his/her TODO list progress.
 """
 
-import requests
-from sys import argv
+import requests as req
+import sys
+
 
 if __name__ == "__main__":
-    employee_id = argv[1]
-    user_url = 'https://jsonplaceholder.typicode.com/users/{}'.format(employee_id)
-    todo_url = 'https://jsonplaceholder.typicode.com/todos?userId={}'.format(employee_id)
+    user_id = sys.argv[1]
+    url = "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
+    user_todo_url = "https://jsonplaceholder.typicode.com/users/{}/todos"
+    .format(user_id)
+    resp = req.get(url).json()
+    user_name = resp.get("name")
+    count = 0
+    user_todos = req.get(user_todo_url).json()
+    total_todos = len(user_todos)
 
-    try:
-        user_response = requests.get(user_url)
-        user_data = user_response.json()
-        todo_response = requests.get(todo_url)
-        todo_data = todo_response.json()
+    print(f"Employee {user_name} is done with tasks({count}/{total_todos}):")
 
-        total_tasks = len(todo_data)
-        completed_tasks = [task for task in todo_data if task['completed']]
-        num_completed_tasks = len(completed_tasks)
-
-        print("Employee {} is done with tasks({}/{}):".format(
-            user_data['name'], num_completed_tasks, total_tasks
-        ))
-
-        for task in completed_tasks:
-            print("\t {}".format(task['title']))
-
-    except requests.RequestException as e:
-        print("Error: {}".format(e))
+    for todo in user_todos:
+        if todo.get("completed"):
+            count += 1
+            print(f"\t{todo.get('title')}")
