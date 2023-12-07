@@ -1,0 +1,10 @@
+sudo vi /etc/ufwbefore.rules
+add port forwarding lines
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+COMMIT
+sudo vi /etc/sysct;.conf
+uncomment #net.ipv4.conf.all.rp_filter=1 since our port forwarding rules was introduced
+sudo systcl -p
+
