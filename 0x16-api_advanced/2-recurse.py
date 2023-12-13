@@ -25,43 +25,34 @@ def recurse(subreddit, hot_list=None, after=None):
     user_agent = {'User-Agent': 'api_advanced-project'}
 
     # Reddit API URL for getting hot articles in a subreddit
-    url = (
-        f'https://www.reddit.com/r/{subreddit}/hot.json'
-    )
+    url = f'https://www.reddit.com/r/{subreddit}/hot.json'
 
     # Parameters for pagination
-    params = {
-        'after': after
-    }
+    params = {'after': after}
 
     try:
         # Make a GET request to the Reddit API
-        response = requests.get(
-            url, params=params, headers=user_agent, allow_redirects=False
-        )
+        response = requests.get
+        (url, params=params, headers=user_agent, allow_redirects=False)
+        response.raise_for_status()  # Raise an error for bad responses
 
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            # Parse the JSON response
-            data = response.json()
+        # Parse the JSON response
+        data = response.json()
 
-            # Extract titles and add them to the hot_list
-            children = data.get('data', {}).get('children', [])
-            for child in children:
-                title = child.get('data', {}).get('title', '')
-                hot_list.append(title)
+        # Extract titles and add them to the hot_list
+        children = data.get('data', {}).get('children', [])
+        for child in children:
+            title = child.get('data', {}).get('title', '')
+            hot_list.append(title)
 
-            # Check if there are more pages (pagination)
-            after_data = data.get('data', {}).get('after')
-            if after_data is not None:
-                # Recursively call the function for the next page
-                recurse(subreddit, hot_list=hot_list, after=after_data)
-            else:
-                # Return the final hot_list when there are no more pages
-                return hot_list
+        # Check if there are more pages (pagination)
+        after_data = data.get('data', {}).get('after')
+        if after_data is not None:
+            # Recursively call the function for the next page
+            recurse(subreddit, hot_list, after_data)
         else:
-            # If there's an issue, return None
-            return None
+            # Return the final hot_list when there are no more pages
+            return hot_list
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return None
