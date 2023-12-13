@@ -1,33 +1,45 @@
 #!/usr/bin/python3
+"""
+Module for interacting with the Reddit API and retrieving the
+number of subscribers for a given subreddit.
+"""
+
 import requests
 
 
 def number_of_subscribers(subreddit):
     """
-    Queries the Reddit API and returns the number of subscribers.
-    If an invalid subreddit is given, the function returns 0.
+    Retrieve the number of subscribers for a given
+    subreddit using the Reddit API.
+
+    Args:
+        subreddit (str): The name of the subreddit.
+
+    Returns:
+        int: The number of subscribers for the subreddit.
+        If the subreddit is invalid, return 0.
     """
-    # Reddit API URL for getting subreddit information
-    url = f'https://www.reddit.com/r/{subreddit}/about.json'
+    # Check if subreddit is a valid string
+    if not isinstance(subreddit, str):
+        return 0
 
     # Set a custom User-Agent to avoid Too Many Requests error
-    headers = {'User-Agent': 'my_bot/1.0'}
+    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
+
+    # Construct the Reddit API URL
+    url = f'https://www.reddit.com/r/{subreddit}/about.json'
 
     try:
         # Make a GET request to the Reddit API
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=user_agent)
+        response.raise_for_status()  # Raise an error for bad responses
 
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            # Parse the JSON response
-            data = response.json()
+        # Parse the JSON response
+        results = response.json()
 
-            # Extract and return the number of subscribers
-            return data['data']['subscribers']
-        else:
-            # If the subreddit is invalid or there's an issue, return 0
-            return 0
-    except Exception as e:
+        # Extract and return the number of subscribers
+        return results['data']['subscribers']
+    except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return 0
 
