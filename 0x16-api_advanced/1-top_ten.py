@@ -1,37 +1,57 @@
 #!/usr/bin/python3
+"""
+Printing titles of
+the first 10 hot posts for a given subreddit.
+"""
+
 import requests
 
 
 def top_ten(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
-    headers = {'User-Agent': 'Custom User Agent'}
+    """
+    Print the titles of the first 10 hot posts for a given
+    subreddit using the Reddit API.
+
+    Args:
+        subreddit (str): The name of the subreddit.
+
+    Returns:
+        None
+    """
+    # Check if subreddit is a valid string
+    if not isinstance(subreddit, str):
+        print("None")
+        return
+
+    # Set a custom User-Agent to avoid Too Many Requests error
+    user_agent = {'User-agent': 'Google Chrome Version 81.0.4044.129'}
+
+    # Parameters for limiting to the first 10 hot posts
+    params = {'limit': 10}
+
+    # Construct the Reddit API URL for hot posts
+    url = f'https://www.reddit.com/r/{subreddit}/hot/.json'
 
     try:
-        response = requests.get(url, headers=headers)
+        # Make a GET request to the Reddit API
+        response = requests.get(url, headers=user_agent, params=params)
+        response.raise_for_status()  # Raise an error for bad responses
 
-        # Check if the request was successful (status code 200)
-        if response.status_code == 200:
-            data = response.json()
+        # Parse the JSON response
+        results = response.json()
 
-            # Check if the subreddit exists
-            if 'error' in data:
-                print(None)
-                return
-
-            # Print titles of the first 10 hot posts
-            for post in data['data']['children']:
-                print(post['data']['title'])
-
-        else:
-            print(None)  # Print None for invalid subreddit or other errors
-
-    except Exception as e:
+        # Extract and print the titles of the first 10 hot posts
+        my_data = results.get('data', {}).get('children', [])
+        for post in my_data:
+            title = post.get('data', {}).get('title', '')
+            print(title)
+    except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
-        print(None)
+        print("None")
 
 
 # Example usage
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
 
     if len(sys.argv) < 2:
