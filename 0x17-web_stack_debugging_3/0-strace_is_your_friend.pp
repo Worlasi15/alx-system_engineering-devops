@@ -1,4 +1,4 @@
-# File: 0-strace_is_your_friend.pp
+# Puppet manifest for debugging and fixing Apache 500 Internal Server Error on Ubuntu 14.04 LTS
 
 # Executing strace to find the issue
 exec { 'strace_apache':
@@ -13,6 +13,7 @@ exec { 'fix_apache_issue':
   command     => 'echo "Fix the issue here" >> /path/to/fix_script.sh && /bin/bash /path/to/fix_script.sh',
   refreshonly => true,
   subscribe   => Exec['strace_apache'],
+  path        => '/usr/bin:/bin', # Add necessary paths if needed
 }
 
 # Restart Apache to apply the fix
